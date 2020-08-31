@@ -1,6 +1,6 @@
 # saved models and data files
-.*data
-.*models
+.*data/
+.*models/
 *.npy
 *.npz
 *.pkl
