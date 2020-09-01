@@ -2,6 +2,7 @@ import numpy as np
 import jax.numpy as jnp
 import jax
 import os
+import pickle
 
 def tensor_grid(x, order = None):
 	"""build tensor grid for multiple parameters
@@ -63,3 +64,7 @@ def load_params(path):
 @jax.jit
 def normalize(x, domain):
 	return 2*(x - (domain[0, :]+domain[1, :]))/(domain[1, :] - domain[0, :])
+
+def save_data(path, x):
+	with open(path, "wb") as f:
+		pickle.dump(x, f)

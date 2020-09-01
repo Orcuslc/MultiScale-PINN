@@ -1,5 +1,7 @@
 import jax
 import jax.numpy as jnp
+from jax.ops import index, index_add, index_update
+
 from functools import partial
 from jaxmeta.data import normalize
 
@@ -12,7 +14,7 @@ def model(params, x):
 def normalized_model(domain):
 	@jax.jit
 	def model(params, x):
-		x = normalize(x)
+		x = normalize(x, domain)
 		for w, b in params[:-1]:
 			x = jnp.sin(jnp.dot(x, w) + b)
 		return jnp.dot(x, params[-1][0]) + params[-1][1]
@@ -23,7 +25,7 @@ def periodic_model_1d(domain, input_dim):
 
 	@jax.jit
 	def model(params, x): # for prediction
-		x = normalize(x)
+		x = normalize(x, domain)
 		x = jnp.dot(x, m)
 		x = index_update(x, index[:, 0], jnp.sin(jnp.pi*x[:, 0]))
 		x = index_update(x, index[:, 1], jnp.cos(jnp.pi*x[:, 1]))
@@ -33,7 +35,7 @@ def periodic_model_1d(domain, input_dim):
 
 	@jax.jit
 	def model_(params, x): # for derivatives
-		x = normalize(x)
+		x = normalize(x, domain)
 		x = jnp.dot(x, m)
 		x = index_update(x, index[0], jnp.sin(jnp.pi*x[0]))
 		x = index_update(x, index[1], jnp.cos(jnp.pi*x[1]))

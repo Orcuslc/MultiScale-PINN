@@ -11,8 +11,8 @@ def mae(pred, true):
 
 @jax.jit
 def l2_regularization(params, w):
-	return w*sum([jnp.square(p[0]) for p in params])
+	return w*sum([jnp.sum(jnp.square(p[0])) for p in params])
 
 @jax.jit
 def l1_regularization(params, w):
-	return w*sum([jnp.abs(p[0]) for p in params])
+	return w*sum([jnp.sum(jnp.abs(p[0])) for p in params])
