@@ -10,7 +10,6 @@ from jaxmeta.loss import *
 
 # name of job
 NAME = "1"
-save_path = "models/{}".format(NAME)
 
 # random key
 key = random.PRNGKey(1)
@@ -40,6 +39,7 @@ iterations = 1000
 print_every = 100
 save_every = 1000
 loss_names = ["Loss", "c1", "c2", "d1", "d2", "l1_reg", "l2_reg"]
+log_file = None
 
 # data
 n_data = {

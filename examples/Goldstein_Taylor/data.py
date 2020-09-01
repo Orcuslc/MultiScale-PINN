@@ -63,7 +63,8 @@ def generate_batch_fn(key, batch_size, dirichlet, collocation, weights):
 		c = next(Collocation)
 		batch = {
 			"dirichlet": dataset_Dirichlet(*d),
-			"collocation": dataset_Collocation(*[jnp.vstack([x, y]) for x, y in zip(d, c)]),
+			# "collocation": dataset_Collocation(*[jnp.vstack([x, y]) for x, y in zip(d, c)]),
+			"collocation": dataset_Collocation(*c)
 			"weights": weights,
 		}
 		return batch
