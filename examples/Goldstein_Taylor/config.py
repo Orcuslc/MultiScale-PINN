@@ -35,11 +35,12 @@ batch_size = {
 	"dirichlet": 300,
 	"collocation": 20100,
 }
-iterations = 1000
-print_every = 100
-save_every = 1000
+iterations = 200000
+print_every = 1000
+save_every = 10000
 loss_names = ["Loss", "c1", "c2", "d1", "d2", "l1_reg", "l2_reg"]
 log_file = None
+
 
 # data
 n_data = {
