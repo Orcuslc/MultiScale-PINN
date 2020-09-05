@@ -5,16 +5,13 @@ from jax import random
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from jaxmeta.model_init import init_siren_params
 from models import normalized_model
 from jaxmeta.loss import l1_regularization, l2_regularization
 from jaxmeta.grad import jacobian_fn, hessian_fn
 
 from data import domain, epsilon
-from config import key, layers, c0, w0, metaloss
+from config import metaloss
 
-key, subkey = random.split(key, 2)
-params = init_siren_params(subkey, layers, c0, w0)
 model = normalized_model(domain)
 jacobian = jacobian_fn(model)
 

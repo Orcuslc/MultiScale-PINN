@@ -5,11 +5,21 @@ from jax.ops import index, index_add, index_update
 from functools import partial
 from jaxmeta.data import normalize
 
-@jax.jit
-def model(params, x):
-	for w, b in params[:-1]:
-		x = jnp.sin(jnp.dot(x, w) + b)
-	return jnp.dot(x, params[-1][0]) + params[-1][1]
+def tanh_model():
+	@jax.jit
+	def model(params, x):
+		for w, b in params[:-1]:
+			x = jnp.tanh(jnp.dot(x, w) + b)
+		return jnp.dot(x, params[-1][0]) + params[-1][1]
+	return model
+
+def simple_model():
+	@jax.jit
+	def model(params, x):
+		for w, b in params[:-1]:
+			x = jnp.sin(jnp.dot(x, w) + b)
+		return jnp.dot(x, params[-1][0]) + params[-1][1]
+	return model
 
 def normalized_model(domain):
 	@jax.jit

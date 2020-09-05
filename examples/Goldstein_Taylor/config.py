@@ -10,6 +10,7 @@ from jaxmeta.loss import *
 
 # name of job
 NAME = "1"
+PATH = "models"
 
 # random key
 key = random.PRNGKey(1)

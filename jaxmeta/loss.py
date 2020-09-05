@@ -10,6 +10,10 @@ def mae(pred, true):
 	return jnp.mean(jnp.abs(pred.reshape((-1, 1)) - true.reshape((-1, 1))))	
 
 @jax.jit
+def rmse(pred, true):
+	return jnp.sqrt(mse(pred, true))
+
+@jax.jit
 def l2_regularization(params, w):
 	return w*sum([jnp.sum(jnp.square(p[0])) for p in params])
 

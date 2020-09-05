@@ -4,8 +4,12 @@ import jax.numpy as jnp
 import config
 from train import train
 
-n_ib = [{"i": 10*4**i, "b": 10*4**i} for i in range(1, 7)]
-n_c = [{"cx": 10*2**i, "ct": 10*2**i} for i in range(1, 7)]
+config.NAME = "experiments_3"
+
+n_ib = [{"i": 10*2**i, "b": 10*2**i} for i in range(0, 5)]
+n_c = [{"cx": 5*2**i, "ct": 5*2**i} for i in range(0, 5)]
+
+config.layers = [2] + [128]*4 + [2]
 
 if __name__ == "__main__":
 	for i, n_ib_ in enumerate(n_ib):
