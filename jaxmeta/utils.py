@@ -1,5 +1,8 @@
-import time
+import jax
 import jax.numpy as jnp
+from jax.lax import dynamic_slice
+
+import time
 import numpy as np
 from typing import List
 
@@ -39,7 +42,7 @@ def unflatten_to_shape(x: jnp.array, shapes: List) -> List:
 	arrays = []
 	index = 0
 	for shape in flatten_shapes:
-		index_end = index + np.prod(shape)
-		arrays.append(x[index:index_end])
-		index = index_end
+		slice_size = np.prod(shape)
+		arrays.append(dynamic_slice(x, (index,), (slice_size,)).reshape(shape))
+		index += slice_size
 	return unflatten_list(arrays, shapes)

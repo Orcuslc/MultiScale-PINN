@@ -6,14 +6,14 @@ def init_siren_layer_params(key, scale, fan_in, fan_out, dtype = jnp.float32):
 	w_key, b_key = random.split(key)
 	w = random.uniform(w_key, (fan_in, fan_out), dtype, minval = -scale, maxval = scale)
 	b = jnp.zeros((fan_out, ), dtype)
-	return w, b
+	return [w, b]
 
 def init_tanh_layer_params(key, fan_in, fan_out, initializer = jax.nn.initializers.glorot_normal, dtype = jnp.float32):
 	w_key, b_key = random.split(key)
 	w_init_fn = initializer()
 	w = w_init_fn(w_key, (fan_in, fan_out), dtype)
 	b = jnp.zeros((fan_out, ), dtype)
-	return w, b
+	return [w, b]
 
 def init_siren_params(key, layers, c0, w0, dtype = jnp.float32):
 	keys = random.split(key, len(layers))
