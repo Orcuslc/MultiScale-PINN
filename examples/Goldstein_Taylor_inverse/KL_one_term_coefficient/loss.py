@@ -47,7 +47,8 @@ def loss_fn_(params, batch):
 		uv = direct_model(direct_params, jnp.hstack([dirichlet.x, dirichlet.t]))
 		u, v = uv[:, 0:1], uv[:, 1:2]
 		loss_d1 = config.metaloss(u, dirichlet.u)
-		loss_d2 = config.metaloss(v, dirichlet.v)
+		# loss_d2 = config.metaloss(v, dirichlet.v)
+		loss_d2 = 0
 	else:
 		loss_d1 = loss_d2 = 0.0
 
