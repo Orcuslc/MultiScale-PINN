@@ -18,12 +18,12 @@ class Agent:
 
 	def compile(self, optimizer, lr, params_init = None):	
 		if params_init is None or not hasattr(self, "opt_state"):
-			opt_init, self.opt_update, self.get_params = optimizer(lr)
-			self.opt_state = opt_init(self._params)
+			self.opt_init, self.opt_update, self.get_params = optimizer(lr)
+			self.opt_state = self.opt_init(self._params)
 			self.hist = {"iter": [], "loss": []}
 			self._iteration = 0
 		else:
-			self.opt_state = opt_init(params_init)
+			self.opt_state = self.opt_init(params_init)
 
 	@partial(jax.jit, static_argnums = (0,))
 	def _step(self, i, opt_state, batch):
@@ -51,7 +51,7 @@ class Agent:
 				save_params(save_path, self.params)
 		save_data("{}/hist.pkl".format(self.save_path), self.hist)
 
-	def train_bfgs(self, n_batches, batch_fn, options, loss_names, log_file = None):
+	def train_bfgs(self, n_batches, batch_fn, options, loss_names, log_file = None, scale = 1.0):
 		param_shapes = apply_to_nested_list(self.params, lambda x: x.shape)
 		flatten = flatten_list(self.params)
 		flatten_params = jnp.hstack([x.reshape(-1,) for x in flatten])
@@ -59,7 +59,7 @@ class Agent:
 		@jax.jit
 		def loss_fn_bfgs(params, batch):
 			params_ = unflatten_to_shape(params, param_shapes)
-			return self.loss_fn(params_, batch)
+			return self.loss_fn(params_, batch)*scale
 
 		for i in range(n_batches):
 			batch = batch_fn(i)
